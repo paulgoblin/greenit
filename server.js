@@ -30,7 +30,7 @@ app.use(cors(corsOptions));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', require('./routes/index'));
+
 
 // GENERAL MIDDLEWARE
 app.use(compression());
@@ -43,6 +43,7 @@ app.use(cookieParser())
 app.use('/users', require('./routes/users'));
 app.use('/topics', require('./routes/topics'));
 app.use('/comments', require('./routes/comments'));
+app.use('/', require('./routes/index'));
 
 // 404 HANDLER
 app.use(function(req, res){
