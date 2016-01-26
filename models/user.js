@@ -115,7 +115,7 @@ userSchema.statics.register = function(userInfo, cb) {
         });
 
         newUser.save((err, savedUser) => {
-          if(err || !savedUser) return cb(err);
+          if(err || !savedUser) return cb('Username or email already taken.');
           if(savedUser.email.length){
              var emailData = {
                from: 'welcome@greenit.com',
