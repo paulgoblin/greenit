@@ -98,7 +98,10 @@ userSchema.statics.register = function(userInfo, cb) {
   }
 
   // create user model
-  User.findOne( {$or: [ {username: username}, {email: email} ]}, (err, user) => {
+  let newUserQuery = email ? { $or: [{email: email}, {username: username}] } : {username: username};
+  console.log("QUERY", newUserQuery);
+  User.findOne(newUserQuery).select('+email').exec((err, user) => {
+    console.log("info",username,  user.username, email, user.email);
     if (err) return cb('error registering username');
     if (user) {
       if (username === user.username) return cb('username taken');
@@ -113,6 +116,7 @@ userSchema.statics.register = function(userInfo, cb) {
           email: email,
           password: hashedPassword
         });
+        console.log("new USER", newUser);
 
         newUser.save((err, savedUser) => {
           if(err || !savedUser) return cb('Username or email already taken.');
